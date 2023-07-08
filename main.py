@@ -1,4 +1,4 @@
-:root {
+data = """:root {
   --primary: #f6f6f6;
   --grey: #757575;
   --normal: rgba(153, 102, 255, 0.6);
@@ -21,12 +21,12 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 62.5%;
 }
 
 /* Global Styles */
 body {
   font-family: "Rubik", sans-serif;
-  font-size: 62.5%;
   background-color: var(--primary);
 }
 .pad {
@@ -90,49 +90,54 @@ h1 ~ p {
   background-color: #42a8a8;
 }
 
-.bars {
+.bars-container {
   position: absolute;
-  transform: rotate(180deg);
-  transform: rotateX(180deg);
+  transform: scale(1, -1);
   bottom: 0;
   right: 10rem;
-  display: flex;
+  /* filter: blur(10px); */
+  /* width: 30rem; */
+}
+
+.bars {
+  width: 30rem;
 }
 
 .bar {
-  width: 2.7rem;
-  margin-left: 0.8rem;
   background-color: var(--normal);
-  height: 10px;
-  filter: blur(10px);
+  height: 1rem;
+  border-radius: 0 0 4px 4px;
+  position: relative;
+  transition: transform ease 1s;
 }
-
-.bars .bar:nth-child(1) {
+.bar:nth-child(odd) {
   background-color: var(--correct);
+}
+/* 
+#bar1 {
   height: 2.9rem;
 }
-.bars .bar:nth-child(2) {
+#bar2 {
   height: 20rem;
 }
-.bars .bar:nth-child(3) {
+#bar3 {
   height: 16rem;
 }
-.bars .bar:nth-child(4) {
+#bar4 {
   height: 7.5rem;
 }
-.bars .bar:nth-child(5) {
-  background-color: var(--wrong);
+#bar5 {
   height: 31rem;
 }
-.bars .bar:nth-child(6) {
+#bar6 {
   height: 22.5rem;
 }
-.bars .bar:nth-child(7) {
+#bar7 {
   height: 19.2rem;
 }
-.bars .bar:nth-child(8) {
+#bar8 {
   height: 11.4rem;
-}
+} */
 
 header::after {
   content: "";
@@ -200,12 +205,63 @@ h3 ~ p {
   color: var(--green);
 }
 
+.swiper {
+  background-color: white;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  overflow-x: hidden;
+}
+
+.swiper .sort-icon svg {
+  width: 9rem;
+  height: 9rem;
+  fill: var(--pink);
+}
+
+.swiper .cards {
+  display: flex;
+  width: 36rem;
+  height: 18rem;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  left: -9rem;
+}
+.swiper .sort-name {
+  font-size: 1.3rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 80%;
+  transition: transform ease 1s;
+  position: absolute;
+}
+
+.second {
+  transform: translateX(13.5rem);
+}
+.third {
+  transform: translateX(27rem);
+}
+
 .bg-yellow {
   background-color: var(--yellow);
 }
 
 .bg-blue {
   background-color: var(--blue);
+}
+.sliders {
+  background-color: white;
+  padding: 3rem;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .slider {
@@ -222,8 +278,8 @@ h3 ~ p {
 .slider::after {
   content: "";
   position: absolute;
-  width: 1.4rem;
-  height: 1.4rem;
+  width: 1.1rem;
+  height: 1.1rem;
   background-color: white;
   top: 0;
   left: 0;
@@ -242,7 +298,7 @@ h3 ~ p {
 }
 .slider.bg-yellow::after {
   transform: translate(calc(-50% + 3.5rem), calc(-50% + 0.35rem));
-  animation: slide-right 6s ease-in-out 0.5s infinite;
+  animation: slide-right 8s ease 0.5s infinite;
 }
 
 .slider.bg-yellow::before {
@@ -255,7 +311,7 @@ h3 ~ p {
   left: 0;
   border-radius: 50%;
   transform: translate(calc(-50% + 3.5rem), calc(-50% + 0.35rem));
-  animation: slide-right 6s ease-in-out 0.5s infinite;
+  animation: slide-right 8s ease 0.5s infinite;
 }
 
 @keyframes slide-left {
@@ -271,7 +327,7 @@ h3 ~ p {
 
 .slider.bg-blue::after {
   transform: translate(calc(-50% + 16.5rem), calc(-50% + 0.35rem));
-  animation: slide-left 6s ease-in-out 0.5s infinite;
+  animation: slide-left 8s ease 0.5s infinite;
 }
 .slider.bg-blue::before {
   content: "";
@@ -283,5 +339,31 @@ h3 ~ p {
   left: 0;
   border-radius: 50%;
   transform: translate(calc(-50% + 16.5rem), calc(-50% + 0.35rem));
-  animation: slide-left 6s ease-in-out 0.5s infinite;
+  animation: slide-left 8s ease 0.5s infinite;
 }
+
+.graph {
+  width: 35rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+"""
+
+
+while (True):
+    i = data.find("rem")
+    if (i == -1):
+        break
+    j = i
+    while (data[j - 1].isdigit() or data[j - 1] == '.'):
+        j -= 1
+    print(data[j:i])
+    num = float(data[j:i])
+    num *= 1.6
+    num = round(num, 2)
+    data = data.replace(data[j:i+3], str(num)+"FEM")
+
+
+print(data)
