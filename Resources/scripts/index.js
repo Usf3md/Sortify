@@ -14,18 +14,19 @@ function plotBars(){
     let el = document.createElement('div');
     el.classList.add('bar');
     el.setAttribute('id', `bar${index}`);
+    el.setAttribute('data-value', value);
     el.style.height = `${(value/maxValue) * height}px`;
     canvas.appendChild(el);
   })
   
 }
 
-plotBars(20);
+plotBars();
 
 let animationQueue = []
 
 
-let bars = canvas .querySelectorAll('.bar');
+let bars = canvas.querySelectorAll('.bar');
 let transitionTime = Number.parseFloat(getComputedStyle(bars[0]).transitionDuration) * 1000;
 let timeGap = 100;
 

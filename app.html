@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rowdies&family=Rubik:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+    <link rel="stylesheet" href="resources/css/normalize.css" />
+    <link rel="stylesheet" href="resources/css/app.css" />
+    <script src="resources/scripts/chart.js"></script>
+  </head>
+  <body>
+    <article class="container">
+      <nav class="navigation pad grid-row box-shadow bg-white">
+        <a href="index.html" class="logo-link">
+          <div class="logo-container">
+            <img class="logo" src="Resources/images/logo.svg" alt="logo" />
+            <p class="logo-name font-rowdies">SORTIFY</p>
+          </div>
+        </a>
+      </nav>
+      <article
+        class="bars-container grid-four-slots round-edges margin-left margin-bottom box-shadow bg-white"
+      >
+        <article class="bars"></article>
+      </article>
+      <div class="graph round-edges margin-right box-shadow bg-white">
+        <canvas id="timeChart"></canvas>
+      </div>
+      <div
+        class="graph round-edges margin-right margin-bottom box-shadow bg-white"
+      >
+        <canvas id="spaceChart"></canvas>
+      </div>
+    </article>
+    <script src="Resources/scripts/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,141 @@
+:root {
+  --primary: #f6f6f6;
+  --grey: #757575;
+  --normal: rgba(153, 102, 255, 0.6);
+  --correct: rgba(77, 193, 75, 0.6);
+  --wrong: rgba(254, 99, 133, 0.6);
+
+  --pink: #fe6385;
+  --yellow: #ffd061;
+  --blue: #36a3ea;
+  --green: #4dc14b;
+
+  --gap: 0.4rem;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global Styles */
+body {
+  font-family: "Rubik", sans-serif;
+  background-color: var(--primary);
+}
+.pad {
+  padding: 0.5rem;
+}
+
+.font-rowdies {
+  font-family: "Rowdies", sans-serif;
+}
+
+.font-grey {
+  color: var(--grey);
+}
+
+.container {
+  height: 100vh;
+  display: grid;
+  grid-template: 4rem repeat(2, minmax(0, 1fr)) / repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+}
+.margin-right {
+  margin-right: var(--gap);
+}
+.margin-left {
+  margin-left: var(--gap);
+}
+.margin-bottom {
+  margin-bottom: var(--gap);
+}
+.round-edges {
+  border-radius: 5px;
+}
+.box-shadow {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.bg-white {
+  background-color: white;
+}
+
+.grid-row {
+  grid-column: 1 / span 3;
+}
+.grid-four-slots {
+  grid-row: 2 / span 2;
+  grid-column: 1 / span 2;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+.logo-link {
+  cursor: pointer;
+  text-decoration: none;
+}
+.logo-link:visited {
+  color: inherit;
+}
+
+.logo {
+  margin-right: 1rem;
+  width: 3rem;
+}
+
+.logo ~ p {
+  font-size: 1.5rem;
+}
+
+.bars-container {
+  display: flex;
+  align-items: end;
+  padding-bottom: 2rem;
+}
+
+.bars {
+  display: grid;
+  gap: 1px;
+  transform: scale(1, -1);
+  padding: 0 5%;
+  width: 100%;
+  height: 75%;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.bar {
+  background-color: var(--normal);
+  border-radius: 0 0 4px 4px;
+  transition: transform ease 0.1s;
+  position: relative;
+}
+
+.bar::after {
+  content: attr(data-value);
+  display: block;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  color: rgba(0, 0, 0, 0.8);
+  transform: translate(-50%, -50%) scale(1, -1);
+}
+
+.graph {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
