@@ -274,7 +274,7 @@ h3 ~ p {
   position: absolute;
   width: 2rem;
   height: 2rem;
-  background-color: var(--yellow);
+  background-color: inherit;
   top: 0;
   left: 0;
   border-radius: 50%;
@@ -302,7 +302,7 @@ h3 ~ p {
   position: absolute;
   width: 2rem;
   height: 2rem;
-  background-color: var(--blue);
+  background-color: inherit;
   top: 0;
   left: 0;
   border-radius: 50%;

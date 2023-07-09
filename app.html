@@ -14,17 +14,49 @@
     <title>Document</title>
     <link rel="stylesheet" href="resources/css/normalize.css" />
     <link rel="stylesheet" href="resources/css/app.css" />
+    <script
+      src="https://kit.fontawesome.com/cc1bd84a2e.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="resources/scripts/chart.js"></script>
   </head>
   <body>
     <article class="container">
       <nav class="navigation pad grid-row box-shadow bg-white">
-        <a href="index.html" class="logo-link">
-          <div class="logo-container">
+        <div class="logo-container">
+          <a href="index.html" class="logo-link flex-center">
             <img class="logo" src="Resources/images/logo.svg" alt="logo" />
             <p class="logo-name font-rowdies">SORTIFY</p>
+          </a>
+        </div>
+        <div class="functions-container flex-center">
+          <div class="control-functions sliders flex-center">
+            <div class="slider bg-yellow">
+              <span id="speed-slider">SPEED</span>
+            </div>
+            <div class="slider bg-blue"><span id="size-slider">SIZE</span></div>
           </div>
-        </a>
+          <div class="sorting-functions flex-center">
+            <span id="randomize-btn" class="icon-container">
+              <i class="fa-solid fa-dice"></i>
+            </span>
+            <div class="sort-ddl">
+              <select name="sorts" id="sorting-alogrithms">
+                <option value="bubble" selected>BUBBLE SORT</option>
+                <option value="merge">MERGE SORT</option>
+                <option value="insertion">INSERTION SORT</option>
+                <option value="shell">SHELL SORT</option>
+              </select>
+            </div>
+          </div>
+          <div class="sort-button-container">
+            <button class="sort-button flex-center flex-justify-space-between">
+              <span class="icon-container">
+                <i class="fa-solid fa-arrow-up-wide-short"></i></span
+              ><span id="state">SORT</span>
+            </button>
+          </div>
+        </div>
       </nav>
       <article
         class="bars-container grid-four-slots round-edges margin-left margin-bottom box-shadow bg-white"
