@@ -1,0 +1,52 @@
+:root {
+  --primary: #f6f6f6;
+  --grey: #757575;
+  --normal: rgba(153, 102, 255, 0.6);
+  --correct: rgba(77, 193, 75, 0.6);
+  --wrong: rgba(254, 99, 133, 0.6);
+
+  --pink: #fe6385;
+  --yellow: #ffd061;
+  --blue: #36a3ea;
+  --green: #4dc14b;
+
+  --gap: 0.4rem;
+}
+
+input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 10rem;
+  height: 0.6rem;
+  border-radius: 1rem;
+  background-color: var(--yellow);
+  background-repeat: no-repeat;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 1.2rem;
+  width: 1.2rem;
+  border-radius: 50%;
+  border: 0.2rem solid var(--yellow);
+  background-color: white;
+  box-shadow: 0 0 2px #555;
+  transition: background-color 0.3s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  cursor: grab;
+}
+input[type="range"]::-webkit-slider-thumb:active {
+  cursor: grabbing;
+}
+input[type="range"]::-webkit-slider-thumb:focus {
+  border: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: none;
+}

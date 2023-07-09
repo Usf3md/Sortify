@@ -1,14 +1,20 @@
-let canvas = document.querySelector('.bars');
+'use strict'
 
 
+const canvas = document.querySelector('.bars');
+const sizeBar = document.getElementById('size-slider');
+const speedBar = document.getElementById('speed-slider');
+const sortBtn = document.getElementById('sort-btn');
 const MAXIMUM_ARRAY_SIZE = 100
 const FONT_SIZE_LIMIT = 7
-let data = []
-
-for (let i = 0; i < 15; i++) {
+const base = 5;
+const timeBetweenFrames = 25;
+function createRandomData(size){
+  data = [];
+  for (let i = 0; i < size; i++) {
     data.push(Number.parseInt(Math.random()*MAXIMUM_ARRAY_SIZE) + 1);
+  }
 }
-
 function plotBars(){
   canvas.innerHTML = '';
   canvas.style["font-size"] = `${MAXIMUM_ARRAY_SIZE / Math.max(FONT_SIZE_LIMIT, data.length) + 4}px`;
@@ -24,20 +30,63 @@ function plotBars(){
     el.style.height = `${(value/maxValue) * height}px`;
     canvas.appendChild(el);
   })
+  bars = canvas.querySelectorAll('.bar');
   
 }
 
-plotBars();
 
-
-
-
-let animationQueue = []
-
-
+let data = []
 let bars = canvas.querySelectorAll('.bar');
-let transitionTime = Number.parseFloat(getComputedStyle(bars[0]).transitionDuration) * 1000;
+let animationQueue = []
+let transitionTime;
 let timeGap = 100;
+createRandomData(updateSize());
+plotBars();
+updateTime();
+
+
+
+
+
+
+function updateSize(){
+    let size = Number.parseInt((MAXIMUM_ARRAY_SIZE - base) * Number.parseInt(sizeBar.value)/100) + base;
+    if (size != data.length){
+      createRandomData(size);
+      plotBars();
+    }
+    return size;
+}
+
+function updateTime(){
+  if (2000 - Number.parseInt(speedBar.value)/100 * 1900 != transitionTime){
+    transitionTime = 2000 - Number.parseInt(speedBar.value)/100 * 1900;
+    bars.forEach(el => {el.style.transitionDuration = `${(transitionTime/1000).toFixed(2)}s`;});
+  }
+  return transitionTime;
+}
+
+sizeBar.addEventListener('mousedown',function(){
+  updateSize();
+  const changeInterval = setInterval(updateSize, timeBetweenFrames);
+  const clearer = function(){
+    clearInterval(changeInterval);
+    sizeBar.removeEventListener('mouseup', clearer);
+  }
+  sizeBar.addEventListener('mouseup', clearer);
+});
+
+
+speedBar.addEventListener('mousedown',function(){
+    updateTime();
+    const changeInterval = setInterval(updateTime, timeBetweenFrames);
+    const clearer = function(){
+        clearInterval(changeInterval);
+        speedBar.removeEventListener('mouseup', clearer);
+    }
+    speedBar.addEventListener('mouseup', clearer);
+});
+
 
 
  function swapTwoBars(index1, index2){
@@ -92,22 +141,38 @@ function bblSort() {
         }, transitionTime);
       });
 }
-bblSort();
+// bblSort();
 
 
-let i = 0;
-const animation = setInterval(() => {
-    if (i >= animationQueue.length)
-        this.clearInterval();
-    else
-        animationQueue[i++]();
-}, transitionTime + timeGap);
-
-
-
+// let i = 0;
+// const animation = setInterval(() => {
+//     if (i >= animationQueue.length)
+//         this.clearInterval();
+//     else
+//         animationQueue[i++]();
+// }, transitionTime + timeGap);
 
 
 
+
+
+
+sortBtn.addEventListener('click', function(){
+  console.log(transitionTime);
+  console.log(bars[0].style.transitionDuration);
+  console.log(bars);
+  animationQueue = [];
+  bblSort();
+  let i = 0;
+  const animation = setInterval(() => {
+      if (i >= animationQueue.length)
+          clearInterval(animation);
+      else
+          animationQueue[i++]();
+  }, transitionTime + timeGap);
+
+
+});
 
 
 var timeChart = document.getElementById("timeChart").getContext("2d");
