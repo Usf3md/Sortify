@@ -106,6 +106,8 @@ function startSort(sortIndex) {
     if (i >= animationQueue.length) {
       clearInterval(animation);
       animationQueue = [];
+      controlsOff = false;
+      toggleControls(controlsOff);
     } else animationQueue[i++]();
   }, transitionTime + timeGap);
 }

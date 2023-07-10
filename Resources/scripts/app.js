@@ -17,7 +17,7 @@ const bars = canvas.childNodes;
 const sizeBar = document.getElementById("size-slider");
 const speedBar = document.getElementById("speed-slider");
 const sortBtn = document.getElementById("sort-btn");
-const randomizeBtn = document.querySelector("#randomize-btn i");
+const randomizeBtn = document.getElementById("randomize-btn");
 const MAXIMUM_ARRAY_SIZE = 100;
 const MAXIMUM_TRANSITION_TIME = 2000;
 const FONT_SIZE_LIMIT = 7;
@@ -104,11 +104,25 @@ speedBar.addEventListener("mousedown", function () {
   speedBar.addEventListener("mouseup", clearer);
 });
 
-console.log(Number.parseInt(sortDDL.value));
-sortBtn.addEventListener(
-  "click",
-  startSort.bind(undefined, Number.parseInt(sortDDL.value))
-);
+function toggleControls(state) {
+  sizeBar.disabled = state;
+  speedBar.disabled = state;
+  sortDDL.disabled = state;
+  randomizeBtn.disabled = state;
+  sortBtn.disabled = state;
+  sizeBar.classList.toggle("disabled", state);
+  speedBar.classList.toggle("disabled", state);
+  sortDDL.classList.toggle("disabled", state);
+  sortBtn.classList.toggle("disabled", state);
+  randomizeBtn.classList.toggle("disabled", state);
+}
+
+let controlsOff = false;
+sortBtn.addEventListener("click", function () {
+  controlsOff = true;
+  toggleControls(controlsOff);
+  startSort(Number.parseInt(sortDDL.value));
+});
 
 var timeChart = document.getElementById("timeChart").getContext("2d");
 var chart = new Chart(timeChart, {
