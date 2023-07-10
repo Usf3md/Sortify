@@ -5,10 +5,14 @@ const canvas = document.querySelector('.bars');
 const sizeBar = document.getElementById('size-slider');
 const speedBar = document.getElementById('speed-slider');
 const sortBtn = document.getElementById('sort-btn');
+const randomizeBtn = document.getElementById('randomize-btn');
 const MAXIMUM_ARRAY_SIZE = 100
+const MAXIMUM_TRANSITION_TIME = 2000;
 const FONT_SIZE_LIMIT = 7
-const base = 5;
+const BASE_SIZE = 5;
+const BASE_TIME = 100;
 const timeBetweenFrames = 25;
+let data = []
 function createRandomData(size){
   data = [];
   for (let i = 0; i < size; i++) {
@@ -31,36 +35,36 @@ function plotBars(){
     canvas.appendChild(el);
   })
   bars = canvas.querySelectorAll('.bar');
+  updateTime(true);
   
 }
 
 
-let data = []
 let bars = canvas.querySelectorAll('.bar');
-let animationQueue = []
+let animationQueue = [];
 let transitionTime;
 let timeGap = 100;
-createRandomData(updateSize());
-plotBars();
-updateTime();
+updateSize(true);
+updateTime(true);
 
 
 
 
 
 
-function updateSize(){
-    let size = Number.parseInt((MAXIMUM_ARRAY_SIZE - base) * Number.parseInt(sizeBar.value)/100) + base;
-    if (size != data.length){
+function updateSize(forceUpdate){
+    let size = Number.parseInt((MAXIMUM_ARRAY_SIZE - BASE_SIZE) * Number.parseInt(sizeBar.value)/100) + BASE_SIZE;
+    if (size != data.length || forceUpdate){
       createRandomData(size);
       plotBars();
     }
     return size;
 }
 
-function updateTime(){
-  if (2000 - Number.parseInt(speedBar.value)/100 * 1900 != transitionTime){
-    transitionTime = 2000 - Number.parseInt(speedBar.value)/100 * 1900;
+function updateTime(forceUpdate){
+  let temp = MAXIMUM_TRANSITION_TIME - Number.parseInt(speedBar.value)/100 * (MAXIMUM_TRANSITION_TIME - BASE_TIME);
+  if (temp != transitionTime || forceUpdate){
+    transitionTime = temp;
     bars.forEach(el => {el.style.transitionDuration = `${(transitionTime/1000).toFixed(2)}s`;});
   }
   return transitionTime;
@@ -96,7 +100,6 @@ speedBar.addEventListener('mousedown',function(){
     let x2 = second.getBoundingClientRect().x;
     first.style.transform = `translateX(${x2 - x1}px)`;
     second.style.transform = `translateX(${x1 - x2}px)`;
-    console.log(first.style);
     let swapInCanvas = function(){
       canvas.insertBefore(second, first);
       canvas.insertBefore(first, second.nextSibling);
@@ -158,20 +161,21 @@ function bblSort() {
 
 
 sortBtn.addEventListener('click', function(){
-  console.log(transitionTime);
-  console.log(bars[0].style.transitionDuration);
-  console.log(bars);
-  animationQueue = [];
   bblSort();
   let i = 0;
   const animation = setInterval(() => {
-      if (i >= animationQueue.length)
-          clearInterval(animation);
+      if (i >= animationQueue.length){
+        clearInterval(animation);
+        animationQueue = [];
+      }
       else
           animationQueue[i++]();
   }, transitionTime + timeGap);
+});
 
-
+randomizeBtn.addEventListener('click', function(){
+  updateSize(true);
+  console.log(bars);
 });
 
 
