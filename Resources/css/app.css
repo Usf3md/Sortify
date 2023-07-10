@@ -193,12 +193,12 @@ input[type="range"]::-webkit-slider-runnable-track {
   background: none;
 }
 
-#randomize-btn {
+#randomize-btn i {
   color: #c8c8c8;
   font-size: 1.8rem;
   transition: color ease 0.2s;
 }
-#randomize-btn:hover {
+#randomize-btn i:hover {
   color: #b8b8b8;
   cursor: pointer;
 }
