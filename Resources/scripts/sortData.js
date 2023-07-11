@@ -46,19 +46,21 @@ const sorts = [
   c0,0.454,0.155,0.895,0.438,1.249L11,28h12l2.293-3.293C25.682,24.318,26,23.55,26,23v-8C26,13.896,25.104,13,24,13z M11,29v1
   c0,0.552,0.447,1,1,1h10c0.553,0,1-0.448,1-1v-1H11z"/>
   </svg>`,
+    sortFunction: selectionSort,
   },
 ];
 
 function swapTwoBars(index1, index2) {
   let first = bars[index1];
   let second = bars[index2];
+  let secondNextSibiling = second.nextSibling;
   let x1 = first.getBoundingClientRect().x;
   let x2 = second.getBoundingClientRect().x;
   first.style.transform = `translateX(${x2 - x1}px)`;
   second.style.transform = `translateX(${x1 - x2}px)`;
   let swapInCanvas = function () {
     canvas.insertBefore(second, first);
-    canvas.insertBefore(first, second.nextSibling);
+    canvas.insertBefore(first, secondNextSibiling);
     first.style.transform = null;
     second.style.transform = null;
     this.removeEventListener("transitionend", swapInCanvas);
@@ -96,6 +98,39 @@ function bblSort() {
       bars[0].style.backgroundColor = "var(--correct)";
     }, transitionTime);
   });
+}
+
+function selectionSort() {
+  for (let i = 0; i < bars.length; i++) {
+    // Finding the smallest number in the subarray
+    let min = i;
+    for (let j = i + 1; j < bars.length; j++) {
+      animationQueue.push(function () {
+        bars[j].style.backgroundColor = "var(--wrong)";
+        bars[min].style.backgroundColor = "var(--wrong)";
+        setTimeout(function () {
+          if (
+            Number.parseInt(bars[j].dataset.value) <
+            Number.parseInt(bars[min].dataset.value)
+          ) {
+            bars[min].style.backgroundColor = "var(--normal)";
+            min = j;
+          }
+          bars[j].style.backgroundColor = "var(--normal)";
+        }, transitionTime);
+      });
+    }
+    animationQueue.push(function () {
+      if (min != i) {
+        swapTwoBars(i, min);
+        // Swapping the elements
+      }
+      setTimeout(function () {
+        bars[i].style.backgroundColor = "var(--correct)";
+      }, transitionTime + timeGap);
+    });
+  }
+  return bars;
 }
 
 function startSort(sortIndex) {
