@@ -19,20 +19,41 @@ const speedBar = document.getElementById("speed-slider");
 const sortBtn = document.getElementById("sort-btn");
 const randomizeBtn = document.getElementById("randomize-btn");
 const MAXIMUM_ARRAY_SIZE = 100;
-const MAXIMUM_TRANSITION_TIME = 2000;
+const MAXIMUM_TRANSITION_TIME = 1000;
 const FONT_SIZE_LIMIT = 7;
 const BASE_SIZE = 5;
-const BASE_TIME = 100;
-const timeBetweenFrames = 25;
+const BASE_TIME = 20;
+const timeBetweenFrames = 15;
 let transitionTime;
 let timeGap = 100;
 let animationQueue = [];
 
+function shuffle(array) {
+  let currentIndex = array.length,
+    randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
+}
+
 function plotBars(size) {
   let data = [];
-  for (let i = 0; i < size; i++) {
-    data.push(Number.parseInt(Math.random() * MAXIMUM_ARRAY_SIZE) + 1);
+  for (let i = 1; i <= size; i++) {
+    data.push(i);
   }
+  data = shuffle(data);
   canvas.innerHTML = "";
   canvas.style["font-size"] = `${
     MAXIMUM_ARRAY_SIZE / Math.max(FONT_SIZE_LIMIT, size) + 4

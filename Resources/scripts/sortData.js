@@ -11,11 +11,14 @@ const sorts = [
     </g>
     </svg>`,
     sortFunction: bblSort,
+    containsGap: true,
   },
 
   {
     sortName: "Merge Sort",
     image: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M80 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm32.4 97.2c28-12.4 47.6-40.5 47.6-73.2c0-44.2-35.8-80-80-80S0 35.8 0 80c0 32.8 19.7 61 48 73.3V358.7C19.7 371 0 399.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-32.8-19.7-61-48-73.3V272c26.7 20.1 60 32 96 32h86.7c12.3 28.3 40.5 48 73.3 48c44.2 0 80-35.8 80-80s-35.8-80-80-80c-32.8 0-61 19.7-73.3 48H208c-49.9 0-91-38.1-95.6-86.8zM80 408a24 24 0 1 1 0 48 24 24 0 1 1 0-48zM344 272a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg>`,
+    sortFunction: mergeSort,
+    containsGap: false,
   },
 
   {
@@ -34,6 +37,7 @@ const sorts = [
   <path d="M24,14H12a2.0021,2.0021,0,0,1-2-2V2h2V12H24V2h2V12A2.0021,2.0021,0,0,1,24,14Z"/>
   <rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle&gt;" class="cls-1" width="32" height="32"/>
   </svg>`,
+    containsGap: true,
   },
 
   {
@@ -47,6 +51,7 @@ const sorts = [
   c0,0.552,0.447,1,1,1h10c0.553,0,1-0.448,1-1v-1H11z"/>
   </svg>`,
     sortFunction: selectionSort,
+    containsGap: true,
   },
 ];
 
@@ -133,9 +138,113 @@ function selectionSort() {
   return bars;
 }
 
+function insertAnimation(bar, bar2, insertPosition, color) {
+  animationQueue.push(function () {
+    bar2.style.backgroundColor = "var(--wrong)";
+    bar.style.backgroundColor = `var(--wrong)`;
+    setTimeout(function () {
+      canvas.insertBefore(bar, bars[insertPosition]);
+      setTimeout(function () {
+        bar2.style.backgroundColor = "var(--normal)";
+        bar.style.backgroundColor = `var(--${color})`;
+      }, transitionTime * 0.3);
+    }, transitionTime * 0.5);
+  });
+}
+
+function changePos(bar, destinationIndex) {
+  delete array[array.indexOf(bar)];
+  array = [
+    ...array.slice(0, destinationIndex),
+    bar,
+    ...array.slice(destinationIndex, array.length),
+  ];
+  array = array.filter((el) => el != undefined);
+}
+
+function merge_Arrays(left, mid, right, finalMerge) {
+  let color = finalMerge ? "correct" : "normal";
+  let subArrayOne = mid - left + 1;
+  let subArrayTwo = right - mid;
+
+  let leftArray = [];
+  let rightArray = [];
+
+  for (let i = 0; i < subArrayOne; i++) leftArray.push(array[left + i]);
+  for (let j = 0; j < subArrayTwo; j++) rightArray.push(array[mid + 1 + j]);
+
+  let indexOfSubArrayOne = 0;
+  let indexOfSubArrayTwo = 0;
+  let indexOfMergedArray = left;
+
+  while (indexOfSubArrayOne < subArrayOne && indexOfSubArrayTwo < subArrayTwo) {
+    if (
+      Number.parseInt(leftArray[indexOfSubArrayOne].dataset.value) <=
+      Number.parseInt(rightArray[indexOfSubArrayTwo].dataset.value)
+    ) {
+      changePos(leftArray[indexOfSubArrayOne], indexOfMergedArray);
+      insertAnimation(
+        leftArray[indexOfSubArrayOne],
+        rightArray[indexOfSubArrayTwo],
+        indexOfMergedArray,
+        color
+      );
+      indexOfSubArrayOne++;
+    } else {
+      changePos(rightArray[indexOfSubArrayTwo], indexOfMergedArray);
+      insertAnimation(
+        rightArray[indexOfSubArrayTwo],
+        leftArray[indexOfSubArrayOne],
+        indexOfMergedArray,
+        color
+      );
+      indexOfSubArrayTwo++;
+    }
+    indexOfMergedArray++;
+  }
+  if (finalMerge) {
+    while (indexOfSubArrayOne < subArrayOne) {
+      changePos(leftArray[indexOfSubArrayOne], indexOfMergedArray);
+      insertAnimation(
+        leftArray[indexOfSubArrayOne],
+        leftArray[indexOfSubArrayOne],
+        indexOfMergedArray,
+        color
+      );
+      indexOfSubArrayOne++;
+      indexOfMergedArray++;
+    }
+
+    while (indexOfSubArrayTwo < subArrayTwo) {
+      changePos(rightArray[indexOfSubArrayTwo], indexOfMergedArray);
+      insertAnimation(
+        rightArray[indexOfSubArrayTwo],
+        rightArray[indexOfSubArrayTwo],
+        indexOfMergedArray,
+        color
+      );
+      indexOfSubArrayTwo++;
+      indexOfMergedArray++;
+    }
+  }
+}
+
+function merge_sort(begin, end, finalMerge) {
+  if (begin >= end) return;
+  let mid = Math.floor(begin + (end - begin) / 2);
+  merge_sort(begin, mid, false);
+  merge_sort(mid + 1, end, false);
+  merge_Arrays(begin, mid, end, finalMerge);
+}
+let array = [];
+function mergeSort() {
+  array = [...bars];
+  merge_sort(0, bars.length - 1, true);
+}
+
 function startSort(sortIndex) {
   animationQueue = [];
-  sorts[sortIndex].sortFunction(bars, animationQueue);
+  sorts[sortIndex].sortFunction();
   let i = 0;
   const animation = setInterval(() => {
     if (i >= animationQueue.length) {
@@ -144,5 +253,5 @@ function startSort(sortIndex) {
       controlsOff = false;
       toggleControls(controlsOff);
     } else animationQueue[i++]();
-  }, transitionTime + timeGap);
+  }, transitionTime + (sorts[sortIndex].containsGap ? timeGap : 0));
 }
