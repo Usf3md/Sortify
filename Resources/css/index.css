@@ -55,6 +55,7 @@ body {
 
 header {
   height: 100vh;
+  height: 100svh;
   position: relative;
 }
 
@@ -131,7 +132,7 @@ h2 {
 }
 
 .feature {
-  margin: 12rem 0;
+  margin: 9rem 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   justify-items: center;
@@ -143,8 +144,9 @@ h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
-h3 ~ p {
+h3 + p {
   font-size: 1.15rem;
+  width: 45ch;
 }
 
 .explain .icon-container {
@@ -316,4 +318,36 @@ h3 ~ p {
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 1200px) {
+  html {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 1100px) {
+  html {
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 950px) {
+  html {
+    font-size: 10px;
+  }
+
+  .feature {
+    display: grid;
+    grid-template: repeat(2, minmax(0, 1fr)) / 100%;
+    justify-items: center;
+    align-items: center;
+    row-gap: 2rem;
+  }
+
+  .feature .visual {
+    grid-row: 2;
+  }
+
+  .bars {
+    right: 3rem;
+  }
 }
