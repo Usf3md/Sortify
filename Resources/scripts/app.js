@@ -20,7 +20,7 @@ const sortBtn = document.getElementById("sort-btn");
 const randomizeBtn = document.getElementById("randomize-btn");
 const MAXIMUM_ARRAY_SIZE = 100;
 const MAXIMUM_TRANSITION_TIME = 1000;
-const FONT_SIZE_LIMIT = 7;
+const FONT_SIZE_LIMIT = 0.3;
 const BASE_SIZE = 5;
 const BASE_TIME = 20;
 const timeBetweenFrames = 15;
@@ -55,19 +55,19 @@ function plotBars(size) {
   }
   data = shuffle(data);
   canvas.innerHTML = "";
-  canvas.style["font-size"] = `${
-    MAXIMUM_ARRAY_SIZE / Math.max(FONT_SIZE_LIMIT, size) + 4
-  }px`;
+  canvas.style["font-size"] = `${Math.max(
+    1 - size / MAXIMUM_ARRAY_SIZE,
+    FONT_SIZE_LIMIT
+  )}rem`;
   canvas.style["gap"] = `${MAXIMUM_ARRAY_SIZE / size}px`;
   canvas.style["grid-template-columns"] = `repeat(${size}, minmax(0, 1fr))`;
-  let height = canvas.getBoundingClientRect().height;
   let maxValue = Math.max(...data);
   data.forEach((value, index) => {
     let el = document.createElement("div");
     el.classList.add("bar");
     el.setAttribute("id", `bar${index}`);
     el.setAttribute("data-value", value);
-    el.style.height = `${(value / maxValue) * height}px`;
+    el.style.height = `${(value / maxValue) * 100}%`;
     canvas.appendChild(el);
   });
   updateTime(true);
@@ -101,28 +101,28 @@ function updateTime(forceUpdate) {
 updateSize(true);
 updateTime(true); // not needed but why not :)
 
-sizeBar.addEventListener("mousedown", function () {
+sizeBar.addEventListener("pointerdown", function () {
   updateSize();
   const changeInterval = setInterval(updateSize, timeBetweenFrames);
   const clearer = function () {
     clearInterval(changeInterval);
-    sizeBar.removeEventListener("mouseup", clearer);
+    sizeBar.removeEventListener("pointerup", clearer);
   };
-  sizeBar.addEventListener("mouseup", clearer);
+  sizeBar.addEventListener("pointerup", clearer);
 });
 
 randomizeBtn.addEventListener("click", function () {
   updateSize(true);
 });
 
-speedBar.addEventListener("mousedown", function () {
+speedBar.addEventListener("pointerdown", function () {
   updateTime();
   const changeInterval = setInterval(updateTime, timeBetweenFrames);
   const clearer = function () {
     clearInterval(changeInterval);
-    speedBar.removeEventListener("mouseup", clearer);
+    speedBar.removeEventListener("pointerup", clearer);
   };
-  speedBar.addEventListener("mouseup", clearer);
+  speedBar.addEventListener("pointerup", clearer);
 });
 
 function toggleControls(state) {
@@ -191,4 +191,24 @@ var chart = new Chart(spaceChart, {
       easing: "ease",
     },
   },
+});
+
+const hamburgerButton = document.getElementById("more-options");
+const functions = document.getElementsByClassName("functions-container")[0];
+hamburgerButton.addEventListener("click", function () {
+  let show = hamburgerButton
+    .getElementsByTagName("i")[0]
+    .classList.contains("fa-xmark");
+  hamburgerButton
+    .getElementsByTagName("i")[0]
+    .classList.toggle("fa-xmark", !show);
+  hamburgerButton
+    .getElementsByTagName("i")[0]
+    .classList.toggle("fa-bars", show);
+
+  functions.classList.toggle("slide", !show);
+});
+
+document.addEventListener("click", function (e) {
+  console.log(e.target);
 });

@@ -23,36 +23,42 @@
   </head>
   <body>
     <article class="container">
-      <nav class="navigation pad grid-row box-shadow bg-white">
+      <nav class="navigation pad box-shadow bg-white">
         <div class="logo-container">
           <a href="index.html" class="logo-link flex-center">
             <img class="logo" src="Resources/images/logo.svg" alt="logo" />
             <p class="logo-name font-rowdies">SORTIFY</p>
           </a>
         </div>
-        <div class="functions-container">
-          <div class="slider-container speed">
-            <input
-              type="range"
-              id="speed-slider"
-              class="slider"
-              data-type="SPEED"
-            />
+        <div class="nav-content">
+          <div class="functions-container">
+            <div class="slider-container speed">
+              <input
+                type="range"
+                id="speed-slider"
+                class="slider"
+                data-type="SPEED"
+              />
+            </div>
+            <div class="slider-container size">
+              <input
+                type="range"
+                id="size-slider"
+                class="slider"
+                data-type="SIZE"
+              />
+            </div>
+            <button id="randomize-btn" class="icon-container">
+              <i class="fa-solid fa-dice"></i>
+            </button>
+            <div class="sort-ddl">
+              <select name="sorts" id="sorting-alogrithms"></select>
+            </div>
           </div>
-          <div class="slider-container size">
-            <input
-              type="range"
-              id="size-slider"
-              class="slider"
-              data-type="SIZE"
-            />
-          </div>
-          <button id="randomize-btn" class="icon-container">
-            <i class="fa-solid fa-dice"></i>
-          </button>
-          <div class="sort-ddl">
-            <select name="sorts" id="sorting-alogrithms"></select>
-          </div>
+
+          <span class="icon-container" id="more-options">
+            <i class="fa-solid fa-bars"></i
+          ></span>
           <button
             class="sort-button flex-center flex-justify-space-between"
             id="sort-btn"
@@ -63,17 +69,13 @@
           </button>
         </div>
       </nav>
-      <article
-        class="bars-container grid-four-slots round-edges margin-left margin-bottom box-shadow bg-white"
-      >
+      <article class="bars-container round-edges box-shadow bg-white">
         <article class="bars"></article>
       </article>
-      <div class="graph round-edges margin-right box-shadow bg-white">
+      <div class="graph round-edges box-shadow bg-white">
         <canvas id="timeChart"></canvas>
       </div>
-      <div
-        class="graph round-edges margin-right margin-bottom box-shadow bg-white"
-      >
+      <div class="graph round-edges margin-bottom box-shadow bg-white">
         <canvas id="spaceChart"></canvas>
       </div>
     </article>
