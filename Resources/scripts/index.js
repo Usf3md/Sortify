@@ -13,14 +13,13 @@ function plotBars() {
   canvas.style[
     "grid-template-columns"
   ] = `repeat(${data.length}, minmax(0, 1fr))`;
-  let height = canvas.getBoundingClientRect().height;
   let maxValue = Math.max(...data);
   data.forEach((value, index) => {
     let el = document.createElement("div");
     el.classList.add("bar");
     el.setAttribute("id", `bar${index}`);
     el.setAttribute("data-value", value);
-    el.style.height = `${(value / maxValue) * height}px`;
+    el.style.height = `${(value / maxValue) * 100}%`;
     canvas.appendChild(el);
   });
 }
@@ -41,7 +40,7 @@ setInterval(function () {
   index = (index + 1) % sorts.length;
   cards.insertBefore(content[2], content[0]);
   content[2].classList = "card";
-}, 5000);
+}, 3000);
 
 var ctx = document.getElementById("myChart").getContext("2d");
 var chart = new Chart(ctx, {
