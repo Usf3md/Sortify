@@ -23,7 +23,6 @@ function plotBars() {
     canvas.appendChild(el);
   });
 }
-``;
 
 plotBars();
 transitionTime =

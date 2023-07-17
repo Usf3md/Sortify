@@ -226,6 +226,13 @@ input[type="range"]::-webkit-slider-runnable-track {
 .sort-button:hover {
   background-color: #42a8a8;
 }
+.stop-button {
+  background-color: #c14b4b;
+}
+
+.stop-button:hover {
+  background-color: #a84242;
+}
 
 .bars-container {
   grid-row: 2 / span 2;

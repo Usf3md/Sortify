@@ -16,6 +16,7 @@ const bars = canvas.childNodes;
 const sizeBar = document.getElementById("size-slider");
 const speedBar = document.getElementById("speed-slider");
 const sortBtn = document.getElementById("sort-btn");
+const sortButtonState = document.getElementById("state");
 const randomizeBtn = document.getElementById("randomize-btn");
 const MAXIMUM_ARRAY_SIZE = 100;
 const MAXIMUM_TRANSITION_TIME = 1000;
@@ -130,19 +131,24 @@ function toggleControls(state) {
   speedBar.disabled = state;
   sortDDL.disabled = state;
   randomizeBtn.disabled = state;
-  sortBtn.disabled = state;
   sizeBar.classList.toggle("disabled", state);
   speedBar.classList.toggle("disabled", state);
   sortDDL.classList.toggle("disabled", state);
-  sortBtn.classList.toggle("disabled", state);
+  sortBtn.classList.toggle("stop-button", state);
+  sortButtonState.textContent = state ? "STOP" : "SORT";
   randomizeBtn.classList.toggle("disabled", state);
 }
 
 let controlsOff = false;
+let canceled = false;
 sortBtn.addEventListener("click", function () {
-  controlsOff = true;
-  toggleControls(controlsOff);
-  startSort(Number.parseInt(sortDDL.value));
+  if (controlsOff == true) {
+    canceled = true;
+  } else {
+    controlsOff = true;
+    toggleControls(controlsOff);
+    startSort(Number.parseInt(sortDDL.value));
+  }
 });
 
 var timeChart = document.getElementById("timeChart").getContext("2d");
@@ -202,8 +208,4 @@ hamburgerButton.addEventListener("click", function () {
   brgr.classList.toggle("fa-bars", show);
 
   functions.classList.toggle("slide", !show);
-});
-
-document.addEventListener("click", function (e) {
-  console.log(e.target);
 });

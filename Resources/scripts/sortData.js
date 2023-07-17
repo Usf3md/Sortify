@@ -270,25 +270,32 @@ function mergeSort() {
   merge_sort(0, bars.length - 1, true);
 }
 
+function clearBars() {
+  bars.forEach((el) => {
+    el.style.backgroundColor = "var(--normal)";
+  });
+}
+
 function startSort(sortIndex) {
   animationQueue = [];
+  clearBars();
   calculateComplexity(bars.length);
   try {
     Tchart.data.labels = x;
     Tchart.data.datasets[0].data = complexities[sorts[sortIndex].time];
     Schart.data.labels = x;
     Schart.data.datasets[0].data = complexities[sorts[sortIndex].space];
-    console.log(x, complexities[sorts[sortIndex].time]);
     Tchart.update();
     Schart.update();
   } catch (error) {}
   sorts[sortIndex].sortFunction();
   let i = 0;
   const animation = setInterval(() => {
-    if (i >= animationQueue.length) {
+    if (i >= animationQueue.length || canceled) {
       clearInterval(animation);
       animationQueue = [];
       controlsOff = false;
+      canceled = false;
       toggleControls(controlsOff);
     } else animationQueue[i++]();
   }, transitionTime + (sorts[sortIndex].containsGap ? timeGap : 0));
