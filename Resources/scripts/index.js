@@ -23,11 +23,29 @@ function plotBars() {
     canvas.appendChild(el);
   });
 }
+``;
 
 plotBars();
 transitionTime =
   Number.parseFloat(getComputedStyle(bars[0]).transitionDuration) * 1000;
 startSort(0);
+
+const revealFeature = function (entries, observer) {
+  let [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove("hidden-feature");
+  observer.unobserve(entry.target);
+};
+
+let featureObserver = new IntersectionObserver(revealFeature, {
+  root: null,
+  threshold: 0.15,
+});
+
+const features = document.querySelectorAll(".feature");
+features.forEach((el) => {
+  featureObserver.observe(el);
+});
 
 let cards = document.querySelector(".cards");
 let index = 3;

@@ -1,3 +1,23 @@
+let x = [];
+
+let complexities = {
+  linear: x.map((el) => el),
+  cubic: x.map((el) => el ** 2),
+  nlogn: x.map((el) => el * Math.log(el)),
+  constant: x.map((el) => x.length),
+};
+
+function calculateComplexity(size) {
+  x = [];
+  for (let i = 0; i < size; i++) {
+    x.push(i);
+  }
+  complexities.linear = x.slice();
+  complexities.cubic = x.map((el) => el ** 2);
+  complexities.nlogn = x.map((el) => el * Math.log(el));
+  complexities.constant = x.map((el) => size);
+}
+
 const sorts = [
   {
     sortName: "Bubble Sort",
@@ -12,6 +32,8 @@ const sorts = [
     </svg>`,
     sortFunction: bblSort,
     containsGap: true,
+    time: "cubic",
+    space: "constant",
   },
 
   {
@@ -19,6 +41,8 @@ const sorts = [
     image: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M80 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm32.4 97.2c28-12.4 47.6-40.5 47.6-73.2c0-44.2-35.8-80-80-80S0 35.8 0 80c0 32.8 19.7 61 48 73.3V358.7C19.7 371 0 399.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-32.8-19.7-61-48-73.3V272c26.7 20.1 60 32 96 32h86.7c12.3 28.3 40.5 48 73.3 48c44.2 0 80-35.8 80-80s-35.8-80-80-80c-32.8 0-61 19.7-73.3 48H208c-49.9 0-91-38.1-95.6-86.8zM80 408a24 24 0 1 1 0 48 24 24 0 1 1 0-48zM344 272a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg>`,
     sortFunction: mergeSort,
     containsGap: false,
+    time: "nlogn",
+    space: "linear",
   },
 
   {
@@ -38,6 +62,8 @@ const sorts = [
   <rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle&gt;" class="cls-1" width="32" height="32"/>
   </svg>`,
     containsGap: true,
+    time: "cubic",
+    space: "constant",
   },
 
   {
@@ -52,6 +78,8 @@ const sorts = [
   </svg>`,
     sortFunction: selectionSort,
     containsGap: true,
+    time: "cubic",
+    space: "constant",
   },
 ];
 
@@ -244,6 +272,16 @@ function mergeSort() {
 
 function startSort(sortIndex) {
   animationQueue = [];
+  calculateComplexity(bars.length);
+  try {
+    Tchart.data.labels = x;
+    Tchart.data.datasets[0].data = complexities[sorts[sortIndex].time];
+    Schart.data.labels = x;
+    Schart.data.datasets[0].data = complexities[sorts[sortIndex].space];
+    console.log(x, complexities[sorts[sortIndex].time]);
+    Tchart.update();
+    Schart.update();
+  } catch (error) {}
   sorts[sortIndex].sortFunction();
   let i = 0;
   const animation = setInterval(() => {

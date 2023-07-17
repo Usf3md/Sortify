@@ -11,7 +11,6 @@ function createDDL() {
   });
 }
 createDDL();
-
 const canvas = document.querySelector(".bars");
 const bars = canvas.childNodes;
 const sizeBar = document.getElementById("size-slider");
@@ -27,6 +26,7 @@ const timeBetweenFrames = 15;
 let transitionTime;
 let timeGap = 100;
 let animationQueue = [];
+sizeBar.value = 16;
 
 function shuffle(array) {
   let currentIndex = array.length,
@@ -146,14 +146,14 @@ sortBtn.addEventListener("click", function () {
 });
 
 var timeChart = document.getElementById("timeChart").getContext("2d");
-var chart = new Chart(timeChart, {
+var Tchart = new Chart(timeChart, {
   type: "line",
   data: {
-    labels: [1, 2, 3, 4],
+    labels: [],
     datasets: [
       {
         label: "Time",
-        data: [0, 4, 8, 16],
+        data: [],
         borderColor: "#ffd061",
         borderWidth: 2,
         fill: false,
@@ -170,14 +170,14 @@ var chart = new Chart(timeChart, {
 });
 
 var spaceChart = document.getElementById("spaceChart").getContext("2d");
-var chart = new Chart(spaceChart, {
+var Schart = new Chart(spaceChart, {
   type: "line",
   data: {
-    labels: [1, 2, 3, 4],
+    labels: [],
     datasets: [
       {
         label: "Space",
-        data: [16, 8, 4, 0],
+        data: [],
         borderColor: "#36a3ea",
         borderWidth: 2,
         fill: false,
@@ -196,15 +196,10 @@ var chart = new Chart(spaceChart, {
 const hamburgerButton = document.getElementById("more-options");
 const functions = document.getElementsByClassName("functions-container")[0];
 hamburgerButton.addEventListener("click", function () {
-  let show = hamburgerButton
-    .getElementsByTagName("i")[0]
-    .classList.contains("fa-xmark");
-  hamburgerButton
-    .getElementsByTagName("i")[0]
-    .classList.toggle("fa-xmark", !show);
-  hamburgerButton
-    .getElementsByTagName("i")[0]
-    .classList.toggle("fa-bars", show);
+  let brgr = hamburgerButton.getElementsByTagName("i")[0];
+  let show = brgr.classList.contains("fa-xmark");
+  brgr.classList.toggle("fa-xmark", !show);
+  brgr.classList.toggle("fa-bars", show);
 
   functions.classList.toggle("slide", !show);
 });
