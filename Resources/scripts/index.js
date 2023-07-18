@@ -4,6 +4,7 @@ const canvas = document.querySelector(".bars");
 let animationQueue = [];
 const bars = canvas.childNodes;
 let transitionTime;
+let canceled = false;
 let timeGap = 100;
 
 let data = [1, 3, 5, 8, 7, 6, 4, 2];
