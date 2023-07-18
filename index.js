@@ -5,7 +5,7 @@ let animationQueue = [];
 const bars = canvas.childNodes;
 let transitionTime;
 let timeGap = 100;
-
+let canceled = false;
 let data = [1, 3, 5, 8, 7, 6, 4, 2];
 
 function plotBars() {
